@@ -3,7 +3,7 @@ from tkinter import messagebox
 
 window = tk.Tk()
 window.title("Крестики-нолики")
-window.geometry("400x400")
+window.geometry("300x400")
 
 current_player = "X"
 buttons = []
@@ -24,6 +24,14 @@ def check_winner():
         return True
 
     return False
+
+
+def check_draw():
+    for row in buttons:
+        for btn in row:
+            if btn["text"] == "":
+                return False  # Если есть пустая клетка, ничьей нет
+    return True  # Все клетки заполнены
 
 
 def on_click(row, col):
@@ -48,6 +56,9 @@ def on_click(row, col):
             reset_game(full_reset=True)  # Полный сброс (включая счёт)
         else:
             reset_game()  # Сброс только поля
+    elif check_draw():  # Проверка на ничью
+        messagebox.showinfo("Игра окончена", "Ничья!")
+        reset_game()  # Сброс поля после ничьей
 
     current_player = "0" if current_player == "X" else "X"
 
